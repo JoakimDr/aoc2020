@@ -14,17 +14,12 @@ var variables = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid', 'cid']
 
 var varNames = '00000000';
 
-const variablesClear = () => {
-    varNames = '00000000';
-};
-
-
 function setCharAt(str,index,chr) {
     if(index > str.length-1) return str;
     return str.substring(0,index) + chr + str.substring(index+1);
 }
 
-var re = /[0-9a-f]{6}/g;
+var re = /^[a-f0-9]+$/gm;
 
 const eyeColors = ['amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth'];
 
@@ -32,16 +27,20 @@ var rowElements;
 var varName;
 var varValue;
 var validPassports = 0;
+var sign = '';
+var hexVal = '';
 
 inputData.forEach(row => {
     if(row.length === 0){
         //new passport        
+        console.log(varNames);
         if(varNames === '11111110' || varNames === '11111111' ){
-            console.log('valid passport');
+//            console.log('valid passport');
             validPassports++;
+//            console.log(validPassports + ' valid passport');
         }
-        console.log('new passport - clearing vars');
-        variablesClear();
+//        console.log('new passport - clearing vars');
+        varNames = '00000000';
     }
     else {        
         rowElements = row.split(' ');
@@ -51,25 +50,25 @@ inputData.forEach(row => {
             varOk = false;
             switch (varName) {
                 case 'byr':
-                    console.log('byr ' + varValue);
+//                    console.log('byr ' + varValue);
                     if(varValue.length == 4 && !isNaN(varValue) && parseInt(varValue) >= 1920 && parseInt(varValue) <= 2002 ){
                         varOk = true;
                     }
                     break;
                 case 'iyr':
-                    console.log('iyr ' + varValue);
+//                    console.log('iyr ' + varValue);
                     if(varValue.length == 4 && !isNaN(varValue) && parseInt(varValue) >= 2010 && parseInt(varValue) <= 2020 ){
                         varOk = true;
                     }
                     break;
                 case 'eyr':
-                    console.log('eyr ' + varValue);
+//                    console.log('eyr ' + varValue);
                     if(varValue.length == 4 && !isNaN(varValue) && parseInt(varValue) >= 2020 && parseInt(varValue) <= 2030 ){
                         varOk = true;
                     }
                     break;
                 case 'hgt':
-                    console.log('hgt' + varValue);
+//                    console.log('hgt' + varValue);
                     if(                        
                         (
                             varValue.substring(varValue.length - 2) == 'cm' 
@@ -88,28 +87,30 @@ inputData.forEach(row => {
                     }
                     break;
                 case 'hcl':
-                    console.log('hcl ' + varValue);
-                    if(varValue.substring(0,1) === '#' &&  re.test(varValue.substring(1,7)))
+                    sign = varValue.substring(0,1);
+                    hexVal = varValue.substring(1);
+                    if(sign == '#' && re.test(hexVal))
                     {
+//                        console.log('hcl true '  + varValue);
                         varOk = true;
                     }
                     break;
                 case 'ecl':
-                    console.log('ecl ' + varValue);
+//                    console.log('ecl ' + varValue);
                     if(eyeColors.indexOf(varValue) > -1)
                     {
                         varOk = true;
                     }
                     break;
                 case 'pid':
-                    console.log('pid ' + varValue);
+//                    console.log('pid ' + varValue);
                     if(varValue.length = 9 && !isNaN(varValue))
                     {
                         varOk = true;
                     }
                     break;
                 case 'cid':
-                    console.log('cid' + varValue);
+//                    console.log('cid' + varValue);
                     varOk = true;
                     break;
                                     
